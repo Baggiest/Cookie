@@ -1,66 +1,69 @@
-/* eslint-disable no-unused-vars */
-const moment = require('moment');
-const { MessageEmbed, MessageActionRow, MessageButton, ButtonInteraction } = require('discord.js')
+/*
+The HELP command is used to display every command's name and description
+to the user, so that he may see what commands are available. The help
+command is also filtered by level, so if a user does not have access to
+a command, it is not shown to them. If a command name is given with the
+help command, its extended help is shown.
+*/
+const { codeBlock } = require("@discordjs/builders");
+const { toProperCase } = require("../modules/functions.js");
 
+exports.run = (client, message, args, level) => {
+  // Grab the container from the client to reduce line length.
+  const { container } = client;
+  // If no specific command is called, show all filtered commands.
+  if (!args[0]) {
+    // Load guild settings (for prefixes and eventually per-guild tweaks)
+    const settings = message.settings;
+      
+    // Filter all commands by which are available for the user's level, using the <Collection>.filter() method.
+    const myCommands = message.guild ? container.commands.filter(cmd => container.levelCache[cmd.conf.permLevel] <= level) :
+      container.commands.filter(cmd => container.levelCache[cmd.conf.permLevel] <= level && cmd.conf.guildOnly !== true);
 
-const helpEmbed = new MessageEmbed()
-    .setTitle('Hey Hey')
-    .setImage('https://cdn.discordapp.com/attachments/883245986166759437/960615193115762740/unknown.png')
-    .setDescription(
-        `commands: \n **yo ben** + your question \n **yo lab** for mixing potions \n \n other commands you can use
-        \n yo TOS \n yo ping \n yo dono \n \n dont forget about the eastereggs here and there, dont be shy ask ben to **make some lean** for you and never try to ratio ben
-        \n \n common problems: \n Ben should have a **100 percent response rate** and any ignoring is mnost probably because of missing permissions, so kick the bot and reinvite with the latest perms \n \n
-        ben is completely **free and opensource** and I work on it and pay for its bills out of passion, so it would mean a lot if you even consider donating, you can contact and dm me at **MrBaggieBug#0606** \n \n 
-        and again, you using this bot means the world to me, \n *sincerely, Bag <3*`
-    )
-    .setColor('PURPLE')
+    // Then we will filter the myCommands collection again to get the enabled commands.
+    const enabledCommands = myCommands.filter(cmd => cmd.conf.enabled);
 
-const row = new MessageActionRow()
+    // Here we have to get the command names only, and we use that array to get the longest name.
+    const commandNames = [...enabledCommands.keys()];
 
-    .addComponents(
+    // This make the help commands "aligned" in the output.
+    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 
-        new MessageButton()
-            .setStyle('LINK')
-            .setLabel('Code base')
-            .setEmoji('<:github:538520337529307145>'),
-            //.setURL('https://github.com/mrbaggiebug/Ben-bot'),
+    let currentCategory = "";
+    let output = `= Command List =\n[Use ${settings.prefix}help <commandname> for details]\n`;
+    const sorted = enabledCommands.sort((p, c) => p.help.category > c.help.category ? 1 : 
+      p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
 
-        new MessageButton()
-            .setURL('https://top.gg/bot/945330615685873704')
-            .setLabel("Rate Ben on top.gg!!")
-            .setEmoji("⭐")
-            .setStyle('LINK'),
+    sorted.forEach( c => {
+      const cat = toProperCase(c.help.category);
+      if (currentCategory !== cat) {
+        output += `\u200b\n== ${cat} ==\n`;
+        currentCategory = cat;
+      }
+      output += `${settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
+    });
+    message.channel.send(codeBlock("asciidoc", output));
 
-        new MessageButton()
-            .setStyle('PRIMARY')
-            .setLabel('Very dark Ben twitter account')
-            .setURL('https://twitter.com/discordingben')
-            .setEmoji('<:Twitter:871910111763914833>')
-            .setStyle('LINK'),
+  } else {
+    // Show individual command's help.
+    let command = args[0];
+    if (container.commands.has(command) || container.commands.has(container.aliases.get(command))) {
+      command = container.commands.get(command) ?? container.commands.get(container.aliases.get(command));
+      if (level < container.levelCache[command.conf.permLevel]) return;
+      message.channel.send(codeBlock("asciidoc", `= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}`));
+    } else return message.channel.send("No command with that name, or alias exists.");
+  }};
 
+exports.conf = {
+  enabled: true,
+  guildOnly: false,
+  aliases: ["h", "halp"],
+  permLevel: "User"
+};
 
-        new MessageButton()
-            .setURL('https://www.buymeacoffee.com/MrBaggieBug')
-            .setLabel('Donations')
-            .setStyle('LINK')
-            .setEmoji('<:8bitL:942601692782936065>'),
-
-        new MessageButton()
-            .setLabel('Our support server!')
-            .setURL('https://discord.gg/jb8vUDTF5s')
-            .setEmoji('<:discord:935402576877346846>')
-            .setStyle('LINK'),
-
-    )
-
-module.exports = {
-    name: 'help',
-    description: 'send help',
-    cooldown: 5,
-    async execute(message) {
-        let time = moment().format("LTS")
-
-        //message.channel.send({ embeds: [helpEmbed], components: [row] })
-        console.log(`[${time}] H`)
-    },
+exports.help = {
+  name: "help",
+  category: "System",
+  description: "Displays all the available commands for your permission level.",
+  usage: "help [command]"
 };

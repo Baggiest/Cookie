@@ -1,87 +1,91 @@
-/* eslint-disable no-unused-vars */
-const Discord = require('discord.js');
-const { join, format } = require('path');
-const Client = require('./client/client');
-const SettingsProvider = require('./client/settings-provider');
-const CommandsModule = require('./client/modules/commands');
-const config = require('./config.json');
-const moment = require('moment');
-const { AutoPoster } = require('topgg-autoposter')
-
-
+// This will check if the node version you are running is the required
+// Node version, if it isn't it will throw the following error to inform
+// you.
+if (Number(process.version.slice(1).split(".")[0]) < 16) throw new Error("Node 16.x or higher is required. Update Node on your system.");
 require("dotenv").config();
 
+// Load up the discord.js library
+const { Client, Collection } = require("discord.js");
+// We also load the rest of the things we need in this file:
+const { readdirSync } = require("fs");
+const { intents, partials, permLevels } = require("./config.js");
+const logger = require("./modules/logger.js");
+// This is your client. Some people call it `bot`, some people call it `self`,
+// some might call it `cootchie`. Either way, when you see `client.something`,
+// or `bot.something`, this is what we're referring to. Your client.
+const client = new Client({ intents, partials });
 
-// LTS here just means that moment will 
-// format the time in [H:M:S AM/PM] 
-const time = moment().format("LTS")
+// Aliases, commands and slash commands are put in collections where they can be
+// read from, catalogued, listed, etc.
+const commands = new Collection();
+const aliases = new Collection();
+const slashcmds = new Collection();
 
-// to do, trim off the unnecessary guilds and perms
-// spoilers i didnt
+// Generate a cache of client permissions for pretty perm names in commands.
+const levelCache = {};
+for (let i = 0; i < permLevels.length; i++) {
+  const thisLevel = permLevels[i];
+  levelCache[thisLevel.name] = thisLevel.level;
+}
 
-const clientOptions = {
-  intents: [
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Discord.Intents.FLAGS.DIRECT_MESSAGES,
-    Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-  ],
+// To reduce client pollution we'll create a single container property
+// that we can attach everything we need to.
+client.container = {
+  commands,
+  aliases,
+  slashcmds,
+  levelCache
 };
 
-const settings = new SettingsProvider(config);
-const client = new Client(clientOptions, settings);
+// We're doing real fancy node 8 async/await stuff here, and to do that
+// we need to wrap stuff in an anonymous function. It's annoying but it works.
 
-const commandsModule = new CommandsModule();
-commandsModule.loadFromDirectory(join(__dirname, 'commands'));
+const init = async () => {
 
+  // Here we load **commands** into memory, as a collection, so they're accessible
+  // here and everywhere else.
+  const commands = readdirSync("./commands/").filter(file => file.endsWith(".js"));
+  for (const file of commands) {
+    const props = require(`./commands/${file}`);
+    logger.log(`Loading Command: ${props.help.name}. 👌`, "log");
+    client.container.commands.set(props.help.name, props);
+    props.conf.aliases.forEach(alias => {
+      client.container.aliases.set(alias, props.help.name);
+    });
+  }
 
-// sends server count to top.gg
-// const poster = AutoPoster(config.topggToken, client.client)
-
-// poster.on('posted', (stats) => { // ran when succesfully posted
-//   console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`)
-// })
-
-
-// ... gets member count
-let getMemberCount = () => {
-  return client.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b);
-}
-
-async function bootstrap() {
-  await client.registerModule('commands', commandsModule);
-
-
-
-  client.registerEvent('ready', async () => {
-
-    // do i really have to explain when this shit runs
-    console.log(`[${time}] Ready!`);
-    client.client.user.setActivity(`The cookie economy is working for ${getMemberCount()} people`)
-
-    console.log(`serving ${client.client.guilds.cache.size} mfs [${getMemberCount()}]`)
+  // Now we load any **slash** commands you may have in the ./slash directory.
+  const slashFiles = readdirSync("./slash").filter(file => file.endsWith(".js"));
+  for (const file of slashFiles) {
+    const command = require(`./slash/${file}`);
+    const commandName = file.split(".")[0];
+    logger.log(`Loading Slash command: ${commandName}. 👌`, "log");
     
+    // Now set the name of the command with it's properties.
+    client.container.slashcmds.set(command.commandData.name, command);
+  }
 
-  });
+  // Then we load events, which will include our message and ready event.
+  const eventFiles = readdirSync("./events/").filter(file => file.endsWith(".js"));
+  for (const file of eventFiles) {
+    const eventName = file.split(".")[0];
+    logger.log(`Loading Event: ${eventName}. 👌`, "log");
+    const event = require(`./events/${file}`);
+    // Bind the client to any event, before the existing arguments
+    // provided by the discord.js event. 
+    // This line is awesome by the way. Just sayin'.
+    client.on(eventName, event.bind(null, client));
+  }  
 
-  //when mfs add the bot to their server
-  client.registerEvent('guildCreate', () => {
-    console.log(`[${time}] Some mf really added this mf to their server 💀 [${client.client.guilds.cache.size}] [${getMemberCount()}]`);
+  // Threads are currently in BETA.
+  // This event will fire when a thread is created, if you want to expand
+  // the logic, throw this in it's own event file like the rest.
+  client.on("threadCreate", (thread) => thread.join());
 
-  });
+  // Here we login the client.
+  client.login();
 
-  //when bozos kick ben
-  client.registerEvent('guildDelete', () => {
-    console.log(`[${time}] Kicked didnt ask [${client.client.guilds.cache.size}]`);
+// End top-level async/await function.
+};
 
-  });
-
-
-  await client.init();
-}
-
-
-bootstrap();
+init();
