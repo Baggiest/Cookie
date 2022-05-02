@@ -7,7 +7,7 @@ module.exports = async function connectDB() {
 
     mongoose.connect(config.mongoURL, async () => {
 
-        console.log("LETS GO CONNECTED")
+        console.log("Mongo is running!")
         
     })
 }
