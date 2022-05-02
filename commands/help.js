@@ -7,11 +7,7 @@ const helpEmbed = new MessageEmbed()
     .setTitle('Hey Hey')
     .setImage('https://cdn.discordapp.com/attachments/883245986166759437/960615193115762740/unknown.png')
     .setDescription(
-        `commands: \n **yo ben** + your question \n **yo lab** for mixing potions \n \n other commands you can use
-        \n yo TOS \n yo ping \n yo dono \n \n dont forget about the eastereggs here and there, dont be shy ask ben to **make some lean** for you and never try to ratio ben
-        \n \n common problems: \n Ben should have a **100 percent response rate** and any ignoring is mnost probably because of missing permissions, so kick the bot and reinvite with the latest perms \n \n
-        ben is completely **free and opensource** and I work on it and pay for its bills out of passion, so it would mean a lot if you even consider donating, you can contact and dm me at **MrBaggieBug#0606** \n \n 
-        and again, you using this bot means the world to me, \n *sincerely, Bag <3*`
+        `fuck you`
     )
     .setColor('PURPLE')
 
