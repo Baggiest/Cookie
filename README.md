@@ -1,15 +1,5 @@
-# Ben the discord bot
+# COOKIE ECONOMY 
 
-## really enjoyed coding this hope u enjoy it
+## 10 times better than bitcoin, ripbozo sadly
 
-### [Terms of service](https://mrbaggiebug.github.io/Ben-bot)
-
-[![wakatime](https://wakatime.com/badge/github/MrBaggieBug/Ben-bot.svg)](https://wakatime.com/badge/github/MrBaggieBug/Ben-bot)
-
-[![Discord Bots](https://top.gg/api/widget/945330615685873704.svg)
-
-credit to [dacurse](https://github.com/DaCurse) for the all the help in writing this
-
----
-
-## [Invite to your server](https://mrbaggiebug.github.io/Ben-bot)
+time wasted since May 1st [![wakatime](https://wakatime.com/badge/user/72bec217-9b00-468f-b8be-d763b0fb3fbf/project/1a7763a6-b173-4b42-bd0f-74da1501f59f.svg)](https://wakatime.com/badge/user/72bec217-9b00-468f-b8be-d763b0fb3fbf/project/1a7763a6-b173-4b42-bd0f-74da1501f59f)
