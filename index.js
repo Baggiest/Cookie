@@ -8,7 +8,10 @@ const config = require('./config.json');
 const moment = require('moment');
 const { AutoPoster } = require('topgg-autoposter')
 const connectDB = require('./mongo/script')
-
+const lottary = require("./lottary");
+const caller = "Main index"
+const Handler = require('./mongo/handler');
+const handler = new Handler(caller)
 
 require("dotenv").config();
 
@@ -80,12 +83,24 @@ async function bootstrap() {
 
   });
 
+  client.registerEvent('messageCreate', (message) => {
+
+    console.log(message.content)
+
+    handler.userValidate(message, "messageCreateFunc")    
+    lottary(message)
+    
+  })
+
 
   await client.init();
 }
 
 
+// starting the whole thing, but after connecting to database
 
 connectDB().then(() => {
+
   bootstrap();
+
 }) 

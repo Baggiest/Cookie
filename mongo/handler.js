@@ -37,8 +37,8 @@ module.exports = class Handler {
 
     }
 
-    async userValidate(m) {
-
+    async userValidate(m, from) {
+        //from is asking which function called it
 
         let mfID = m.author.id;
         let stamp = m.createdTimestamp;
@@ -47,8 +47,12 @@ module.exports = class Handler {
         //console.log(await userExists)
 
         if (userExists) {
-            m.reply("nah bro you already have an account fuck off")
 
+            if (from === "gemmeFunc") {
+
+                m.reply("nah bro you already have an account fuck off")
+                
+            }
         }
 
         else {
@@ -73,7 +77,7 @@ module.exports = class Handler {
 
         console.log(`created profile for ${ID}`)
 
-        }
+    }
 
     payUser() {
 
@@ -87,8 +91,8 @@ module.exports = class Handler {
 
         if (!userData) {
             m.reply(`You dont have an account, making one for you :) + 4 cookies! ${emotes.cookie}`)
-        } 
-        
+        }
+
         else {
             m.reply(`You have ${userData.balance} Cookies `)
         }
