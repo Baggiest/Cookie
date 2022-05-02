@@ -7,6 +7,7 @@ const CommandsModule = require('./client/modules/commands');
 const config = require('./config.json');
 const moment = require('moment');
 const { AutoPoster } = require('topgg-autoposter')
+const connectDB = require('./mongo/script')
 
 
 require("dotenv").config();
@@ -63,7 +64,7 @@ async function bootstrap() {
     client.client.user.setActivity(`The cookie economy is working for ${getMemberCount()} people`)
 
     console.log(`serving ${client.client.guilds.cache.size} mfs [${getMemberCount()}]`)
-    
+
 
   });
 
@@ -84,4 +85,7 @@ async function bootstrap() {
 }
 
 
-bootstrap();
+
+connectDB().then(() => {
+  bootstrap();
+}) 
