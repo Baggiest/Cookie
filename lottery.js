@@ -28,7 +28,7 @@ module.exports = async (m) => {
         //generates a number between 1 & 100
         console.log(r)
 
-        if (r >= 95) {
+        if (r >= 96) {
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()
             m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`).then(() => {

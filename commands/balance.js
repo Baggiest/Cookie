@@ -4,7 +4,7 @@ const caller = "balance module"
 const handler = new Handler(caller)
 
 module.exports = {
-    name: "balance", 
+    name: "bal", 
     description: "for checking your cookie balance",
 
     async execute(message){

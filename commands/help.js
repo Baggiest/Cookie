@@ -18,21 +18,9 @@ const row = new MessageActionRow()
         new MessageButton()
             .setStyle('LINK')
             .setLabel('Code base')
-            .setEmoji('<:github:538520337529307145>'),
-            //.setURL('https://github.com/mrbaggiebug/Ben-bot'),
+            .setEmoji('<:github:538520337529307145>')
+            .setURL('https://github.com/mrbaggiebug/cookie'),
 
-        new MessageButton()
-            .setURL('https://top.gg/bot/945330615685873704')
-            .setLabel("Rate Ben on top.gg!!")
-            .setEmoji("⭐")
-            .setStyle('LINK'),
-
-        new MessageButton()
-            .setStyle('PRIMARY')
-            .setLabel('Very dark Ben twitter account')
-            .setURL('https://twitter.com/discordingben')
-            .setEmoji('<:Twitter:871910111763914833>')
-            .setStyle('LINK'),
 
 
         new MessageButton()
@@ -56,7 +44,7 @@ module.exports = {
     async execute(message) {
         let time = moment().format("LTS")
 
-        //message.channel.send({ embeds: [helpEmbed], components: [row] })
+        message.channel.send({ embeds: [helpEmbed], components: [row] })
         console.log(`[${time}] H`)
     },
 };

@@ -43,7 +43,7 @@ module.exports = class Handler {
         //yes its the exact same as the balance func on but doesnt reply to the message, shut the fuck up i dont wanna hear it
 
         let userData = await this.fetchData(userID)
-        return await userData.balance
+        return userData
     }
 
     async userValidate(m, from) {
@@ -107,11 +107,11 @@ module.exports = class Handler {
 
         if (this.checkExist(senderID) && this.checkExist(receiverID)) {
 
-            let senderBalance = await this.userBalance(senderID)
-            let receiverBalance = await this.userBalance(receiverID)
+            let senderData = await this.userBalance(senderID)
+            let receiverData = await this.userBalance(receiverID)
             // console.log(senderBalance.balance
-            //now lets check if mf has enough balance
-            if (amount > senderBalance) {
+            // now lets check if mf has enough balance
+            if (amount > senderData.balance) {
 
                 return false;
             }
