@@ -85,14 +85,14 @@ async function bootstrap() {
 
   client.registerEvent('messageCreate', (message) => {
 
-    console.log(message.content)
+    //if here is just excluding the cookie bot from doing shit with its own messages
+    if (message.author.id != '969564660586147860') {
 
-    handler.userValidate(message, "messageCreateFunc")    
-    lottary(message)
-    
+      handler.userValidate(message, "messageCreateFunc") //just signs every mf up
+      lottary(message)  //the prize chance shit
+    }
   })
-
-
+  
   await client.init();
 }
 

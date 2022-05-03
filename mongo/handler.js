@@ -29,12 +29,20 @@ module.exports = class Handler {
         }
 
         else {
-
             return userData
         }
 
         console.log(userData)
 
+    }
+
+    async userBalance(userID) {
+        //yes its the exact same as the other on but doesnt send anything, shut the fuck up i dont wanna hear it
+        
+        let userData = await this.fetchData(userID)
+        let response = userData.balance;
+
+        return response
     }
 
     async userValidate(m, from) {
@@ -51,7 +59,7 @@ module.exports = class Handler {
             if (from === "gemmeFunc") {
 
                 m.reply("nah bro you already have an account fuck off")
-                
+
             }
         }
 
@@ -79,14 +87,17 @@ module.exports = class Handler {
 
     }
 
-    payUser() {
+    async payUser(senderID, receiverID, amount) {
 
+        let senderBalance = await this.userBalance(senderID)
+        let receiverBalance = await this.userBalance(receiverID)
+
+        console.log(senderBalance)
     }
 
     async getBalance(m) {
 
         let discID = m.author.id;
-
         let userData = await this.fetchData(discID)
 
         if (!userData) {
