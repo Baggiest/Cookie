@@ -15,6 +15,7 @@ module.exports = class Handler {
 
 
     constructor(caller) {
+
         console.log(`${caller} is running!`)
     }
 
@@ -25,7 +26,9 @@ module.exports = class Handler {
         });
 
         if (!userData) {
-            this.createUser(ID)
+            this.createUser(ID).then(() => {
+                return userData
+            })
         }
 
         else {
@@ -37,12 +40,10 @@ module.exports = class Handler {
     }
 
     async userBalance(userID) {
-        //yes its the exact same as the other on but doesnt send anything, shut the fuck up i dont wanna hear it
-        
-        let userData = await this.fetchData(userID)
-        let response = userData.balance;
+        //yes its the exact same as the balance func on but doesnt reply to the message, shut the fuck up i dont wanna hear it
 
-        return response
+        let userData = await this.fetchData(userID)
+        return await userData.balance
     }
 
     async userValidate(m, from) {
@@ -56,7 +57,7 @@ module.exports = class Handler {
 
         if (userExists) {
 
-            if (from === "gemmeFunc") {
+            if (from === "sign up") {
 
                 m.reply("nah bro you already have an account fuck off")
 
@@ -67,7 +68,8 @@ module.exports = class Handler {
 
             this.createUser(mfID).then(() => {
 
-                m.reply(`W profile created! here's 4 cookies ${emotes.cookie}`)
+                //m.reply(`W profile created! here's 4 cookies ${emotes.cookie}`)
+                console.log('made account for a new mf in userValidate')
             })
         }
     }
@@ -87,12 +89,81 @@ module.exports = class Handler {
 
     }
 
+    async checkExist(ID) {
+
+        let response = await User.exists({
+            userID: ID
+        })
+
+        if (response) {
+            return true
+        }
+        else {
+            return false
+        }
+    }
+
     async payUser(senderID, receiverID, amount) {
 
-        let senderBalance = await this.userBalance(senderID)
-        let receiverBalance = await this.userBalance(receiverID)
+        if (this.checkExist(senderID) && this.checkExist(receiverID)) {
 
-        console.log(senderBalance)
+            let senderBalance = await this.userBalance(senderID)
+            let receiverBalance = await this.userBalance(receiverID)
+            // console.log(senderBalance.balance
+            //now lets check if mf has enough balance
+            if (amount > senderBalance) {
+
+                return false;
+            }
+
+            else {
+
+                await this.decBal(senderID, amount).then(async () => {
+                    console.log("got the money")
+
+                    await this.addBal(receiverID, amount).then(() => {
+
+                        console.log('payed the fucker')
+                    })
+                })
+
+                return true;
+            }
+        }
+
+        else {
+            return false;
+        }
+    }
+
+
+    async addBal(id, amount) {
+
+        // find the user
+        await User.findOneAndUpdate({
+            userID: id,
+        },
+            {
+                $inc: {
+                    // and add the fucking balance what are you confused about
+                    balance: + amount
+                }
+
+            })
+    }
+
+    async decBal(id, amount) {
+
+        await User.findOneAndUpdate({
+            userID: id,
+        },
+            {
+                $inc: {
+                    // and add the fucking balance what are you confused about
+                    balance: - amount
+                }
+
+            })
     }
 
     async getBalance(m) {
