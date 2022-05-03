@@ -8,7 +8,7 @@ const config = require('./config.json');
 const moment = require('moment');
 const { AutoPoster } = require('topgg-autoposter')
 const connectDB = require('./mongo/script')
-const lottary = require("./lottary");
+const lottery = require("./lottery");
 const caller = "Main index"
 const Handler = require('./mongo/handler');
 const handler = new Handler(caller)
@@ -89,10 +89,10 @@ async function bootstrap() {
     if (message.author.id != '969564660586147860') {
 
       handler.userValidate(message, "messageCreateFunc") //just signs every mf up
-      lottary(message)  //the prize chance shit
+      lottery(message)  //the prize chance shit
     }
   })
-  
+
   await client.init();
 }
 

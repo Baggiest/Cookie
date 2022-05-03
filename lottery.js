@@ -1,5 +1,5 @@
 const Handler = require("./mongo/handler");
-const caller = "lottary"
+const caller = "lottery"
 /* eslint-disable no-unused-vars */
 const handler = new Handler(caller)
 const emotes = {
