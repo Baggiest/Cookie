@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 const Handler = require("./mongo/handler");
 const moment = require('moment');
-const users = require("./mongo/users");
 const caller = "lottery"
 const handler = new Handler(caller)
 const User = require('./mongo/users')
@@ -22,8 +21,8 @@ module.exports = async (m) => {
     const messageTimestamp = m.createdTimestamp
     const time = moment()
 
-    console.log(await userData)
-    console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
+    // console.log(await userData)
+    // console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
 
     function prizeAmount() {
 
