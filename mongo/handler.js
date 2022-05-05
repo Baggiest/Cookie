@@ -179,4 +179,9 @@ module.exports = class Handler {
             m.reply(`You have ${userData.balance} Cookies `)
         }
     }
+
+    async isCunt(id){
+        const userData = await this.fetchData(id)
+        return userData
+    }
 }
