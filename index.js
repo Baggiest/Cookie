@@ -86,7 +86,7 @@ async function bootstrap() {
   client.registerEvent('messageCreate', (message) => {
 
     //if here is just excluding the cookie bot from doing shit with its own messages
-    if (message.author.id != '969564660586147860') {
+    if (message.author.id != '969564660586147860' && message.channel.id != '946750702464696350' && message.channel.id != '946750702464696350') {
 
       handler.userValidate(message, "messageCreateFunc") //just signs every mf up
       lottery(message)  //the prize chance shit
