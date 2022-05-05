@@ -19,23 +19,28 @@ module.exports = {
 
         if (amount >= 1 && !isNaN(amount)) { // just making sure its a sane number
 
-            if (senderID != receiverID) {
+            if (senderID != receiverID) { // making sure they arent giving themselves
 
-                let payment = await handler.payUser(senderID, receiverID, amount)
+                let payment = await handler.payUser(senderID, receiverID, amount) //straight forward
 
                 if (payment) {
+
                     m.reply(`just gave <@${receiverID}> ${amount} cookies !`)
-                } else {
-                    m.reply(`payment failed`)
+
+                }
+                
+                else {
+                    m.reply(`payment failed`) //embrace the state of chaos and dont tell them what went wrong
+                    // paypal should hire me
                 }
             }
-            
-            if (senderID === receiverID){
-                m.reply('fuckin retard 💀')
+
+            if (senderID === receiverID) {
+                m.reply('fuckin retard 💀') // im very kind
             }
-
-
         }
+
+
         else {
             m.reply('enter a fucking real amount \n goofy ahh')
         }
