@@ -4,7 +4,7 @@ const caller = "giveFunc"
 const handler = new Handler(caller)
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
-    "giveCookie": "<a:<a:GiveCookieL:969572361911275531>"
+    "giveCookie": "<a:GiveCookieR:971740550845853696>"
 }
 
 module.exports = {
