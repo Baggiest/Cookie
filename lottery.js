@@ -7,7 +7,8 @@ const User = require('./mongo/users')
 const config = require('./config.json')
 
 const emotes = {
-    "cookie": "<:Cookie:970644679353831424>"
+    "cookie": "<:Cookie:970644679353831424>",
+    "giveCookie": "<a:<a:GiveCookieL:969572361911275531>"
 }
 
 

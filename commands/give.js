@@ -2,6 +2,10 @@
 const Handler = require("../mongo/handler")
 const caller = "giveFunc"
 const handler = new Handler(caller)
+const emotes = {
+    "cookie": "<:Cookie:970644679353831424>",
+    "giveCookie": "<a:<a:GiveCookieL:969572361911275531>"
+}
 
 module.exports = {
     name: "give",
@@ -25,10 +29,10 @@ module.exports = {
 
                 if (payment) {
 
-                    m.reply(`just gave <@${receiverID}> ${amount} cookies !`)
+                    m.reply(`just gave <@${receiverID}> ${amount} cookies ${emotes.giveCookie}!`)
 
                 }
-                
+
                 else {
                     m.reply(`payment failed`) //embrace the state of chaos and dont tell them what went wrong
                     // paypal should hire me
