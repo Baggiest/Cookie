@@ -51,6 +51,10 @@ commandsModule.loadFromDirectory(join(__dirname, 'commands'));
 
 
 // ... gets member count
+
+async function isBot(id) {
+}
+
 let getMemberCount = () => {
   return client.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b);
 }
@@ -83,14 +87,22 @@ async function bootstrap() {
 
   });
 
-  client.registerEvent('messageCreate', (message) => {
+  client.registerEvent('messageCreate', async (message) => {
 
     //if here is just excluding the cookie bot from doing shit with its own messages
-    if (message.author.id != '969564660586147860' && message.channel.id != '946750702464696350' && message.channel.id != '946750702464696350') {
 
-      handler.userValidate(message, "messageCreateFunc") //just signs every mf up
-      lottery(message)  //the prize chance shit
-    }
+    client.client.users.fetch(message.author.id).then(async (user) => {
+
+      if (user.bot === false) {
+        handler.userValidate(message, "messageCreateFunc") //just signs every mf up
+        lottery(message)  //the prize chance shit
+
+      }
+
+    });
+
+
+
   })
 
   await client.init();
