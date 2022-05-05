@@ -1,6 +1,8 @@
 {
     "token": "bruh",
     "prefix": "bruh ",
-    "mongoURL": "bruh"
+    "mongoURL": "bruh",
+    "ownerID": "bruh",
+    "rewardCooldown": 10
   }
   
