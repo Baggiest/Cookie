@@ -18,12 +18,25 @@ module.exports = async (m) => {
     //this module is called from index.js at the the function at ~83
     const messageID = m.author.id;
     const userData = await handler.fetchData(messageID)
-    const lastRewarded = userData.lastReward
+
+    //let lastRewarded = userData.lastReward
+
+
     const messageTimestamp = m.createdTimestamp
     const time = moment()
 
     // console.log(await userData)
     // console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
+
+    function lastRewarded() {
+        if (!userData.lastReward) {
+            return 1
+        }
+        
+        else {
+            return userData.lastReward
+        }
+    }
 
     function prizeAmount() {
 
@@ -41,7 +54,7 @@ module.exports = async (m) => {
         //generates a number between 1 & 100
         console.log(r)
 
-        if ((r >= 96) && (time.unix() - lastRewarded > config.rewardCooldown)) { //can only be rewarded every 20 seconds
+        if ((r >= 96) && (time.unix() - lastRewarded() > config.rewardCooldown)) { //can only be rewarded every 20 seconds
 
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()

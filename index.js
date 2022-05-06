@@ -94,6 +94,7 @@ async function bootstrap() {
     client.client.users.fetch(message.author.id).then(async (user) => {
 
       if (user.bot === false) {
+        
         handler.userValidate(message, "messageCreateFunc") //just signs every mf up
         lottery(message)  //the prize chance shit
 
