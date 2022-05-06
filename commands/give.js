@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 const Handler = require("../mongo/handler")
-const caller = "giveFunc"
+
+const caller = "giveCMD"
 const handler = new Handler(caller)
+
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
     "giveCookie": "<a:GiveCookieR:971740550845853696>"
@@ -29,7 +31,7 @@ module.exports = {
 
                 if (payment) {
 
-                    m.reply(`just gave <@${receiverID}> ${amount} cookies ${emotes.giveCookie}!`)
+                    m.reply(`just gave <@${receiverID}> ${amount} cookies ${emotes.giveCookie} !`)
 
                 }
 
