@@ -26,9 +26,9 @@ module.exports = class Handler {
         });
 
         if (!userData) {
-            this.createUser(ID).then(() => {
-                return userData
-            })
+            // this.createUser(ID).then(() => {
+            //     return userData
+            // })
         }
 
         else {
