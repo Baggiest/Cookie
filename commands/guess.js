@@ -5,7 +5,7 @@ const handler = new Handler(caller)
 module.exports = {
     name: 'guess',
     description: 'guessing game',
-    cooldown: 5,
+    cooldown: 2000,
     async execute(message) {
 
         const mString = message.content;
