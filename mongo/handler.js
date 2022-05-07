@@ -192,7 +192,7 @@ module.exports = class Handler {
     async setBan(id){
         
         let setUserBan = await User.findOneAndUpdate({userID: id}, {
-            isBanned: !this.isBanned
+            isBanned: true
         })
         console.log(setUserBan)
     }
