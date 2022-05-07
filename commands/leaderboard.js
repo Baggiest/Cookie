@@ -22,7 +22,7 @@ module.exports = {
             let score = objects[i].balance.toString()
             let ID = objects[i].userID
 
-            leaderboard += ` \n \n **${i + 1}.** \t **${score}** <@${ID}>`
+            leaderboard += ` \n \n *${i + 1}.* \t **${score}** <@${ID}>`
         }
         console.log(leaderboard)
 
