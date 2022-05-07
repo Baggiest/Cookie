@@ -7,7 +7,7 @@ const helpEmbed = new MessageEmbed()
     .setTitle('Hey Hey')
     .setImage('https://cdn.discordapp.com/attachments/883245986166759437/960615193115762740/unknown.png')
     .setDescription(
-        `fuck you`
+        `Uh basically, **capitalism** \n\nthe only way to get cookies is by **chatting**, every message has a ~4% chance of giving u 1-10 cookies and you can\n\n give cookies by **hey give @id (number of cookies)** \n\ncheck your balance by **hey bal** \n\nglobal leaderboard by **hey lb**\n\n also this is ben`
     )
     .setColor('PURPLE')
 

@@ -56,7 +56,7 @@ module.exports = async (m) => {
         // console.log(lastRewarded())
         // console.log((Date.now() - lastRewarded()))
 
-        if ((r >= 96) && (Date.now() - lastRewarded() > config.rewardCooldown)) { //can only be rewarded every 20 seconds
+        if ((r >= 97) && (Date.now() - lastRewarded() > config.rewardCooldown)) { //can only be rewarded every 20 seconds
 
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()
