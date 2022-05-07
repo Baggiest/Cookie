@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
     balance: { type: Number, required: true, default: 0 },
     serverID: { type: String, required: false },
     lastReward: { type: Number, default: 1 },
+    lastPlayed: {type: Number, default: 1},
+    isBanned: {type: Boolean, default: false},
 
     stock: [stockSchema]
 })

@@ -134,6 +134,12 @@ module.exports = class Stock {
 
         //console.log(stake)
 
+        //now we check if the user already owns the stock, yes i did write a function for it
+
+        // if(this.hasStock(symbol)){
+
+        // }
+
         let userNewStock = await User.findOneAndUpdate({ userID: id }, {
             $push: { stock: stake },
         })

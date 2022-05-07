@@ -180,8 +180,20 @@ module.exports = class Handler {
         }
     }
 
-    async isCunt(id){
+    async isBanned(id){
         const userData = await this.fetchData(id)
         return userData
+    }
+
+    async setGameTimeout(id){
+
+    }
+
+    async setBan(id){
+        
+        let setUserBan = await User.findOneAndUpdate({userID: id}, {
+            isBanned: true
+        })
+        console.log(setUserBan)
     }
 }

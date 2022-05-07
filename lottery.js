@@ -29,10 +29,11 @@ module.exports = async (m) => {
     // console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
 
     function lastRewarded() {
+
         if (!userData.lastReward) {
             return 1
         }
-        
+
         else {
             return userData.lastReward
         }
@@ -48,15 +49,19 @@ module.exports = async (m) => {
 
     getsPrize() // no subroutines??? megamind face
 
-    function getsPrize() {
+    async function getsPrize() {
 
         let r = Math.floor(Math.random() * 100) + 1;
         //generates a number between 1 & 100
         console.log(r)
-        // console.log(lastRewarded())
-        // console.log((Date.now() - lastRewarded()))
 
-        if ((r >= 97) && (Date.now() - lastRewarded() > config.rewardCooldown)) { //can only be rewarded every 20 seconds
+        function isBanned(){
+            return userData.isBanned
+        }
+        //let userIsBanned = await 
+        //console.log(userIsBanned)
+        
+        if ((r >= 97) && (Date.now() - lastRewarded() > config.rewardCooldown) && (isBanned() === false)) { //can only be rewarded every 20 seconds
 
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()
