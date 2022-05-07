@@ -23,7 +23,7 @@ module.exports = {
 
         console.log(`${amount} ${senderID} ${receiverID}`)
 
-        if (amount >= 1 && !isNaN(amount)) { // just making sure its a sane number
+        if (amount >= 1 && !isNaN(amount) && receiverID.length === 18) { // just making sure its a sane number
 
             if (senderID != receiverID) { // making sure they arent giving themselves
 
@@ -48,7 +48,7 @@ module.exports = {
 
 
         else {
-            m.reply('enter a fucking real amount \n goofy ahh')
+            m.reply('\t enter a fucking real amount and account \ngoofy ahh')
         }
     }
 }

@@ -4,7 +4,7 @@ const { MessageEmbed } = require('discord.js')
 
 module.exports = {
     name: 'poor',
-    description: 'its a leaderboard so these mfs shut the fuck up',
+    description: 'poor',
     cooldown: 5,
 
     async execute(message) {
@@ -25,7 +25,7 @@ module.exports = {
         console.log(leaderboard)
 
         const leaderEmbed = new MessageEmbed()
-            .setTitle('Poorest people lmfao 💀')
+            .setTitle('Poorest mfs lmfao 💀')
             .setColor('YELLOW')
             .setThumbnail('https://c.tenor.com/oCxcur4d32wAAAAC/squidward-spare-change.gif')
             .setDescription(leaderboard.replace('undefined', '').replace('1.', '👑')) // yea fuck you too
