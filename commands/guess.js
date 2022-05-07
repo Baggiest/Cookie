@@ -17,10 +17,13 @@ module.exports = {
 
         if (typeof (sentGuess === 'string') && r === sentGuess) {
 
-            message.reply('YOU GUESSED CORRECTLY! HERES 20 COOKIES').then(async () => {
-                handler.addBal(message.author.id, 20)
-                
+            message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES').then(async () => {
+                handler.addBal(message.author.id, 50)
+
             })
+
+        } else {
+            message.reply(`You lost and the number was ${r}`)
         }
     },
 };

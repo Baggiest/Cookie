@@ -13,7 +13,8 @@ module.exports = {
         const userID = mSplit[2].substring(2, 20)
 
         if (m.author.id === '602245248634192117') {
-            handler.setBan(userID)
+            let isBanned = await handler.setBan(userID)
+            console.log(isBanned)
         }
     },
 };
