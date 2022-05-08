@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 const Handler = require("./mongo/handler");
-const moment = require('moment');
 const caller = "lottery"
 const handler = new Handler(caller)
 const User = require('./mongo/users')
@@ -18,26 +17,14 @@ module.exports = async (m) => {
     //this module is called from index.js at the the function at ~83
     const messageID = m.author.id;
     const userData = await handler.fetchData(messageID)
-
+    const mTime = Math.floor(m.createdTimestamp / 1000)
     //let lastRewarded = userData.lastReward
-
-
-    const messageTimestamp = m.createdTimestamp
-    const time = moment()
 
     // console.log(await userData)
     // console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
 
-    function lastRewarded() {
-
-        if (!userData.lastReward) {
-            return 1
-        }
-
-        else {
-            return userData.lastReward
-        }
-    }
+    const lastRewarded = await userData.lastReward
+    const isBanned = await userData.isBanned
 
     function prizeAmount() {
 
@@ -55,13 +42,10 @@ module.exports = async (m) => {
         //generates a number between 1 & 100
         console.log(r)
 
-        function isBanned(){
-            return userData.isBanned
-        }
-        //let userIsBanned = await 
+
         //console.log(userIsBanned)
-        
-        if ((r >= 97) && (Date.now() - lastRewarded() > config.rewardCooldown) && (isBanned() === false)) { //can only be rewarded every 20 seconds
+        console.log("message", mTime, "lastRew", lastRewarded)
+        if ((r >= 97) && (mTime - lastRewarded > config.rewardCooldown) && (isBanned === false)) { //can only be rewarded every 20 seconds
 
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()
@@ -72,7 +56,7 @@ module.exports = async (m) => {
 
                     await User.findOneAndUpdate({ userID: messageID }, { // then update the last time they got rewarded
 
-                        lastReward: messageTimestamp
+                        lastReward: mTime
 
                     })
                 })

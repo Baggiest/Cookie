@@ -185,10 +185,6 @@ module.exports = class Handler {
         return userData
     }
 
-    async setGameTimeout(id){
-
-    }
-
     async setBan(id){
         
         let setUserBan = await User.findOneAndUpdate({userID: id}, {
