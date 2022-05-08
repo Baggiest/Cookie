@@ -12,7 +12,7 @@ module.exports = {
     async execute(message) {
 
         let i;
-        const objects = await User.find({}).limit(10).select('balance').select('userID').sort({ balance: -1 })
+        const objects = await User.find({}).limit(20).select('balance').select('userID').sort({ balance: -1 })
 
         let leaderboard;
 
