@@ -12,13 +12,13 @@ module.exports = {
         const mSplit = mString.split(' ')
 
         const userID = mSplit[2].substring(2, 20)
-        const userIsBanned = handler.isBanned(userData)
+        const userIsBanned = handler.isBanned(userID)
 
         if (m.author.id === '602245248634192117') {
 
 
             let isBanned = await handler.setBan(userID).then(() => {
-                userIsBanned ? m.reply(`User <@${userID}> \n${leFunnyGif}`) : m.reply(`User <@${userID}> is unbanned now`)
+                userIsBanned ? m.reply(`User <@${userID}> \n${leFunnyGif}`) : m.reply(`User <@${userID}> is unbanned now <:Okay:931961254493421599>`)
             })
 
             console.log(isBanned)
