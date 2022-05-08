@@ -17,8 +17,8 @@ module.exports = {
 
         if (typeof (sentGuess === 'string') && r === sentGuess) {
 
-            message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES').then(async () => {
-                handler.addBal(message.author.id, 50)
+            message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES not really').then(async () => {
+               // handler.addBal(message.author.id, 50)
 
             })
 
