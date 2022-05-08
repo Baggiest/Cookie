@@ -32,25 +32,30 @@ module.exports = {
             if (typeof (sentGuess === 'string') && (r === sentGuess)) {
 
 
-                handler.addBal(message.author.id, 50)
+                message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES not really').then(async () => {
+                    handler.addBal(message.author.id, 50)
 
-                await User.findOneAndUpdate({ userID: message.author.id }, {
-                    lastPlayed: mTime
+                    await User.findOneAndUpdate({ userID: message.author.id }, {
+                        lastPlayed: mTime
 
-                }).then(async () => {
-                    message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES')
+                    }).then(async () => {
+                        message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES')
+                    })
                 })
 
             } else {
 
                 await User.findOneAndUpdate({ userID: message.author.id }, {
+
                     lastPlayed: mTime
-                }).then(async () => {
+                })
+                
+                .then(async () => {
                     message.reply(`You lost and the number was ${r}`)
                 })
             }
         }
-        else{
+        else {
             return false;
             //silence is the best answer to retards -Obama probably 
         }
