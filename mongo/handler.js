@@ -180,16 +180,33 @@ module.exports = class Handler {
         }
     }
 
-    async isBanned(id){
+    async isBanned(id) {
+
         const userData = await this.fetchData(id)
-        return userData.isBanned
+        console.log(userData)
+
+        if (userData === null || userData === undefined) {
+
+            return false;
+        }
+        else {
+            return userData.isBanned
+        }
     }
 
-    async setBan(id){
-        
-        let setUserBan = await User.findOneAndUpdate({userID: id}, {
-            isBanned: !this.isBanned
-        })
-        console.log(setUserBan)
+    async setBan(id) {
+
+        const userData = await this.fetchData(id)
+
+        if (userData === null || userData === undefined) {
+            return false
+        }
+
+        else {
+            let setUserBan = await User.findOneAndUpdate({ userID: id }, {
+                isBanned: !userData.isBanned
+            })
+            console.log(setUserBan)
+        }
     }
 }

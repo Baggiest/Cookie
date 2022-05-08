@@ -12,18 +12,27 @@ module.exports = {
         const mSplit = mString.split(' ')
 
         const userID = mSplit[2].substring(2, 20)
-        let userIsBanned = handler.isBanned(userID)
+        let userIsBanned = await handler.isBanned(userID)
+        console.log("zamn", userIsBanned)
 
         if (m.author.id === '602245248634192117') {
 
 
-            let isBanned = await handler.setBan(userID).then(() => {
-                userIsBanned ? m.reply(`User <@${userID}> \n${leFunnyGif} has been gulaged, ripbozo, no more cookies`) : m.reply(`User <@${userID}> is unbanned now <:Okay:931961254493421599>`)
-            })
 
-            console.log(isBanned)
+            if (userIsBanned === false) {
+                await handler.setBan(userID).then(() => {
+                    m.reply(`User <@${userID}> has been gulaged, ripbozo, no more cookies 4 u lil bro`)
+                    m.channel.send(leFunnyGif)
+                })
+            }
+            else {
+                await handler.setBan(userID).then(() => {
+                    m.reply(`User <@${userID}> is unbanned now <:okay:972868795586719825>`)
+                })
+            }
         }
-        else{
+
+        else {
             m.reply('Fat')
         }
     },
