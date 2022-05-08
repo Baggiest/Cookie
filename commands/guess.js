@@ -27,21 +27,21 @@ module.exports = {
 
         console.log("delta", mTime - lastRew)
 
-        if (mTime - lastRew > 30) {
+        if (mTime - lastRew > 20) {
 
-            if (typeof (sentGuess === 'string') && (r === sentGuess)) {
+            if (typeof (sentGuess) === 'number' && (r === sentGuess)) {
 
 
-                message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES not really').then(async () => {
-                    handler.addBal(message.author.id, 50)
+                message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES not really')
 
-                    await User.findOneAndUpdate({ userID: message.author.id }, {
-                        lastPlayed: mTime
+                    .then(async () => {
+                        handler.addBal(message.author.id, 50)
 
-                    }).then(async () => {
-                        message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES')
+                        await User.findOneAndUpdate({ userID: message.author.id }, {
+                            lastPlayed: mTime
+
+                        })
                     })
-                })
 
             } else {
 
@@ -49,13 +49,14 @@ module.exports = {
 
                     lastPlayed: mTime
                 })
-                
-                .then(async () => {
-                    message.reply(`You lost and the number was ${r}`)
-                })
+
+                    .then(async () => {
+                        message.reply(`You lost and the number was ${r}`)
+                    })
             }
         }
         else {
+            message.reply(`U gotta wait ${20 - (mTime - lastRew)} seconds fat fuck`)
             return false;
             //silence is the best answer to retards -Obama probably 
         }
