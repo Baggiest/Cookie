@@ -27,7 +27,7 @@ module.exports = {
 
         console.log("delta", mTime - lastRew)
 
-        if (mTime - lastRew > 20) {
+        if (mTime - lastRew > 13) {
 
             if (typeof (sentGuess) === 'number' && (r === sentGuess)) {
 
@@ -56,7 +56,7 @@ module.exports = {
             }
         }
         else {
-            message.reply(`U gotta wait ${20 - (mTime - lastRew)} seconds fat fuck`)
+            message.reply(`U gotta wait ${13 - (mTime - lastRew)} seconds fat fuck`)
             return false;
             //silence is the best answer to retards -Obama probably 
         }
