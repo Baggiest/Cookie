@@ -45,7 +45,7 @@ module.exports = async (m) => {
 
         //console.log(userIsBanned)
         console.log("message", mTime, "lastRew", lastRewarded)
-        if ((r >= 97) && (mTime - lastRewarded > config.rewardCooldown) && (isBanned === false)) { //can only be rewarded every 20 seconds
+        if ((r >= 94) && (mTime - lastRewarded > config.rewardCooldown) && (isBanned === false)) { //can only be rewarded every 20 seconds
 
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()
