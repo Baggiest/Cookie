@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const stockSchema = new mongoose.Schema({
 
-    name: { type: String, required: true, unique: true},
+    name: { type: String, required: true, unique: true },
     priceAtPurchase: { type: Number, required: true },
     numberOfShares: { type: Number, default: 0 },
     dateOfPurchase: { type: Number, required: true },
@@ -16,8 +16,9 @@ const userSchema = new mongoose.Schema({
     balance: { type: Number, required: true, default: 0 },
     serverID: { type: String, required: false },
     lastReward: { type: Number, default: 1 },
-    lastPlayed: {type: Number, default: 1},
-    isBanned: {type: Boolean, default: false},
+    lastPlayed: { type: Number, default: 1 },
+    userTag: { type: String },
+    isBanned: { type: Boolean, default: false },
 
     stock: [stockSchema]
 })

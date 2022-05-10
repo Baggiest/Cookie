@@ -52,8 +52,6 @@ commandsModule.loadFromDirectory(join(__dirname, 'commands'));
 
 // ... gets member count
 
-async function isBot(id) {
-}
 
 let getMemberCount = () => {
   return client.client.guilds.cache.map(g => g.memberCount).reduce((a, b) => a + b);
@@ -99,7 +97,6 @@ async function bootstrap() {
         lottery(message)  //the prize chance shit
 
       }
-
     });
 
 

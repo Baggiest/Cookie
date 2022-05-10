@@ -32,14 +32,15 @@ module.exports = {
             if (typeof (sentGuess) === 'number' && (r === sentGuess)) {
 
 
-                message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES not really')
+                message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES')
 
                     .then(async () => {
                         handler.addBal(message.author.id, 50)
 
                         await User.findOneAndUpdate({ userID: message.author.id }, {
-                            lastPlayed: mTime
-
+                            lastReward: mTime,
+                            lastPlayed: mTime,
+                            userTag: message.author.tag
                         })
                     })
 
@@ -47,7 +48,8 @@ module.exports = {
 
                 await User.findOneAndUpdate({ userID: message.author.id }, {
 
-                    lastPlayed: mTime
+                    lastPlayed: mTime,
+                    userTag: message.author.tag
                 })
 
                     .then(async () => {

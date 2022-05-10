@@ -51,6 +51,7 @@ module.exports = class Handler {
 
         let mfID = m.author.id;
         let stamp = m.createdTimestamp;
+        let userTag = m.author.tag;
 
         let userExists = await User.exists({ userID: mfID })
         //console.log(await userExists)
@@ -66,20 +67,20 @@ module.exports = class Handler {
 
         else {
 
-            this.createUser(mfID).then(() => {
-
+            this.createUser(mfID, userTag).then(() => {
                 //m.reply(`W profile created! here's 4 cookies ${emotes.cookie}`)
                 console.log('made account for a new mf in userValidate')
             })
         }
     }
 
-    async createUser(ID) {
+    async createUser(ID, Tag) {
 
         console.log(`doing ${ID}`)
 
         let user = await User.create({
             userID: ID,
+            userTag: Tag,
             balance: 4
         })
 
