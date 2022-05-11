@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     userID: { type: String, required: true, unique: true },
     balance: { type: Number, required: true, default: 0 },
     serverID: { type: String, required: false },
+    timesPlayed: { type: Number, defualt: 0 },
     lastReward: { type: Number, default: 1 },
     lastPlayed: { type: Number, default: 1 },
     userTag: { type: String },

@@ -10,7 +10,7 @@ module.exports = {
     async execute(message) {
 
         let i;
-        const objects = await User.find({}).limit(5).select('balance').select('userID').sort({ balance: 1 })
+        const objects = await User.find({}).limit(10).select('balance').select('userTag').sort({ balance: 1 })
 
         let leaderboard;
 
@@ -18,9 +18,9 @@ module.exports = {
 
             //console.log(i + 1, objects[i].balance)
             let score = objects[i].balance.toString()
-            let ID = objects[i].userID
+            let ID = objects[i].userTag
 
-            leaderboard += ` \n \n \t **${score}** cookies <@${ID}>`
+            leaderboard += ` \n \t **${score}** cookies ${ID}`
         }
         console.log(leaderboard)
 

@@ -40,6 +40,9 @@ module.exports = {
                         await User.findOneAndUpdate({ userID: message.author.id }, {
                             lastReward: mTime,
                             lastPlayed: mTime,
+                            $inc: {
+                                timesPlayed: + 1
+                            },
                             userTag: message.author.tag
                         })
                     })
@@ -49,7 +52,10 @@ module.exports = {
                 await User.findOneAndUpdate({ userID: message.author.id }, {
 
                     lastPlayed: mTime,
-                    userTag: message.author.tag
+                    userTag: message.author.tag,
+                    $inc: {
+                        timesPlayed: + 1
+                    }
                 })
 
                     .then(async () => {
