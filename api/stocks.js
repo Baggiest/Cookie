@@ -31,7 +31,7 @@ module.exports = class Stock {
 
                 return true
             }
-            
+
             else {
                 return false
             }
@@ -94,14 +94,14 @@ module.exports = class Stock {
         }
     }
 
-    async buyStock(id, symbol, amount) {
+    async buyStock(id, symbol, amount, message) {
 
         const userData = await handler.fetchData(id)
         const userBalance = userData.balance;
 
         console.log(`user balance is ${userBalance}`)
 
-        const stockPriceOfOne = Math.floor(await this.getStocksPrice(symbol) / 10)
+        const stockPriceOfOne = Math.floor(await this.getStocksPrice(symbol) / 10) //for my economy i just put a divide by ten cause it would be too expensive
         const finalStockPrice = stockPriceOfOne * amount
 
         if (finalStockPrice >= userBalance) {
@@ -116,9 +116,11 @@ module.exports = class Stock {
             handler.decBal(id, finalStockPrice)
 
                 .then(async () => {
+
                     await this.giveShare(id, symbol, amount, finalStockPrice)
                     console.log(id, symbol, amount, finalStockPrice)
-                    return true, finalStockPrice;
+
+                    return true
                 })
         }
     }

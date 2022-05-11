@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 const mongoose = require('mongoose')
 const config = require('../config.json')
-const { db } = require('./users')
 
 
 module.exports = async function connectDB() {

@@ -54,7 +54,7 @@ module.exports = async (m) => {
 
                 handler.addBal(messageID, num).then(async () => { // give the money and make sure
 
-                    await User.findOneAndUpdate({ userID: messageID }, { // then update the last time they got rewarded
+                    await User.findByIdAndUpdate({}, { // then update the last time they got rewarded
 
                         lastReward: mTime
 

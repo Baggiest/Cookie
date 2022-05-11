@@ -22,11 +22,12 @@ module.exports = {
             let score = objects[i].balance.toString()
             let ID = objects[i].userTag
 
-            leaderboard += ` \n ${i + 1}. ***${ID}*** \t **${score}**\t`
+            leaderboard += ` \n ${i + 1}. ***${ID}*** \t ** | ${score}**\t`
         }
         console.log(leaderboard)
 
         const leaderEmbed = new MessageEmbed()
+
             .setTitle('People with the most cookies')
             .setColor('YELLOW')
             .setThumbnail('https://cdn.discordapp.com/attachments/883245986166759437/972292034012532838/1651882879600.png')

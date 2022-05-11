@@ -40,8 +40,8 @@ module.exports = {
 
         if (stock.isValidSymbol(pickedStock) === true && amountOfStock > 0) {
 
-            stock.buyStock(mID, pickedStock, amountOfStock)
-            stock.hasStock(mID, 'AAPL')
+            stock.buyStock(mID, pickedStock, amountOfStock, message)
+            //stock.hasStock(mID, 'AAPL')
             console.log(`trying to buy ${pickedStock}`)
         }
 

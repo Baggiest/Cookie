@@ -45,6 +45,7 @@ module.exports = {
         let time = moment().format("LTS")
 
         message.channel.send({ embeds: [helpEmbed], components: [row] })
+        
         console.log(`[${time}] H`)
     },
 };
