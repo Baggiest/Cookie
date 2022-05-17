@@ -3,7 +3,8 @@ const Handler = require("./mongo/handler");
 const caller = "lottery"
 const handler = new Handler(caller)
 const User = require('./mongo/users')
-const config = require('./config.json')
+const config = require('./config.json');
+const { delta } = require("ccxt");
 
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
@@ -15,7 +16,7 @@ const emotes = {
 module.exports = async (m) => {
 
     //this module is called from index.js at the the function at ~83
-    const messageID = m.author.id;
+    const messageID = m.author.id
     const userData = await handler.fetchData(messageID)
     const mTime = Math.floor(m.createdTimestamp / 1000)
     //let lastRewarded = userData.lastReward
@@ -23,8 +24,8 @@ module.exports = async (m) => {
     // console.log(await userData)
     // console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
 
-    const lastRewarded = await userData.lastReward
-    const isBanned = await userData.isBanned
+    let lastRewarded = await userData.lastReward
+    let isBanned = await userData.isBanned
 
     function prizeAmount() {
 
@@ -44,22 +45,29 @@ module.exports = async (m) => {
 
 
         //console.log(userIsBanned)
-        console.log("message", mTime, "lastRew", lastRewarded)
-        if ((r >= 96) && (mTime - lastRewarded > config.rewardCooldown) && (isBanned === false)) { //can only be rewarded every 20 seconds
+        console.log("message", mTime, "lastRew", lastRewarded, "delta", `${mTime - lastRewarded}`)
+
+        if ((r >= 1) && (mTime - lastRewarded > 400) && (isBanned === false)) { //can only be rewarded every 20 seconds
 
             //wins amounts of cookies that should be decided in the other function
             const num = prizeAmount()
 
-            m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`).then(() => {
+            console.log(messageID)
+            m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`)
 
-                handler.addBal(messageID, num).then(async () => { // give the money and make sure
+            handler.addBal(messageID, num).then(async () => { // give the money and make sure
 
-                    await User.findByIdAndUpdate({}, { // then update the last time they got rewarded
+                try {
+                    await User.findOneAndUpdate({
+                        userID: messageID
 
+                    }, {
+                        // then update the last time they got rewarded
                         lastReward: mTime
-
                     })
-                })
+                } catch (error) {
+                    console.log(error)
+                }
             })
         }
     }
