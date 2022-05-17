@@ -27,7 +27,7 @@ module.exports = {
 
             if (senderID != receiverID) { // making sure they arent giving themselves
 
-                let payment = await handler.payUser(senderID, receiverID, amount) //straight forward
+                let payment = await handler.payUser(senderID, receiverID, amount, m) //straight forward
 
                 if (payment) {
 

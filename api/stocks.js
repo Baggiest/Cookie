@@ -8,6 +8,9 @@ const caller = "stock handler"
 
 const handler = new Handler(caller)
 
+const emotes = {
+    "cookie": "<:Cookie:970644679353831424>"
+}
 module.exports = class Stock {
 
     constructor() {
@@ -20,21 +23,24 @@ module.exports = class Stock {
         let i;
         const userData = await handler.fetchData(id)
 
-        //console.log("cuck", userData.stock)
+        //console.log("bruh", userData)
         const stockArray = userData.stock;
+
+        // console.log("cuck", userData.stock)
 
         for (i = 0; i < stockArray.length; i++) {
 
             console.log(stockArray[i].name)
 
-            if (stockArray[i].name.includes(symbol)) {
+            // if (stockArray[i].name.includes(symbol)) {
 
-                return true
-            }
+            //     return true
+                
+            // }
 
-            else {
-                return false
-            }
+            // else {
+            //     return false
+            // }
         }
     }
 
@@ -96,33 +102,35 @@ module.exports = class Stock {
 
     async buyStock(id, symbol, amount, message) {
 
-        const userData = await handler.fetchData(id)
-        const userBalance = userData.balance;
+        // const userData = await handler.fetchData(id)
+        // const userBalance = userData.balance;
 
-        console.log(`user balance is ${userBalance}`)
+        // console.log(`user balance is ${userBalance}`)
 
-        const stockPriceOfOne = Math.floor(await this.getStocksPrice(symbol) / 10) //for my economy i just put a divide by ten cause it would be too expensive
-        const finalStockPrice = stockPriceOfOne * amount
+        // const stockPriceOfOne = Math.floor(await this.getStocksPrice(symbol) / 10) //for my economy i just put a divide by ten cause it would be too expensive
+        // const finalStockPrice = stockPriceOfOne * amount
 
-        if (finalStockPrice >= userBalance) {
+        // if (finalStockPrice >= userBalance) {
 
-            return false;
+        //     return false;
 
-        }
+        // }
 
-        else {
-            console.log(`bought ${amount} shares of ${symbol} for ${finalStockPrice} cookies`)
+        // else {
+        //     console.log(`bought ${amount} shares of ${symbol} for ${finalStockPrice} cookies`)
 
-            handler.decBal(id, finalStockPrice)
+        //     message.reply(`bought ${amount} shares of ${symbol} for ${finalStockPrice} ${emotes.cookie}`)
+        //     handler.decBal(id, finalStockPrice)
 
-                .then(async () => {
+        //         .then(async () => {
 
-                    await this.giveShare(id, symbol, amount, finalStockPrice)
-                    console.log(id, symbol, amount, finalStockPrice)
+        //             await this.giveShare(id, symbol, amount, finalStockPrice)
+        //             console.log(id, symbol, amount, finalStockPrice)
 
-                    return true
-                })
-        }
+        //             return true
+        //         })
+        // } 
+        this.hasStock(id)
     }
 
     async giveShare(id, symbol, count, paidFeeOfOne) {
@@ -138,13 +146,23 @@ module.exports = class Stock {
 
         //now we check if the user already owns the stock, yes i did write a function for it
 
-        // if(this.hasStock(symbol)){
+        if (this.hasStock(symbol) === true) {
+            User.findByIdAndUpdate({}, {
+                $inc: {
+                    stock: {
+                        numberOfShares: + count
+                    }
+                }
+            })
 
-        // }
+        } else {
 
-        let userNewStock = await User.findOneAndUpdate({ userID: id }, {
-            $push: { stock: stake },
-        })
+            let userNewStock = await User.findOneAndUpdate({ userID: id }, {
+                $push: { stock: stake },
+            })
+        }
+
+
 
 
         //console.log(userNewStock)

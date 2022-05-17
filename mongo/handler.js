@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-
-const { Message } = require('discord.js');
+const Bank = require('../api/bank')
 const mongoose = require('mongoose')
 
 const User = require('./users')
+//const bank = new Bank() 
 
 let emotes = {
     "cookie": "<:Cookie:970644679353831424>"
@@ -104,12 +104,14 @@ module.exports = class Handler {
         }
     }
 
-    async payUser(senderID, receiverID, amount) {
+    async payUser(senderID, receiverID, amount, message) {
 
         if (this.checkExist(senderID) && this.checkExist(receiverID)) {
 
             let senderData = await this.userBalance(senderID)
             let receiverData = await this.userBalance(receiverID)
+
+
             // console.log(senderBalance.balance
             // now lets check if mf has enough balance
             if (amount > senderData.balance) {
