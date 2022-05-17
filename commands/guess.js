@@ -27,7 +27,7 @@ module.exports = {
 
         console.log("delta", mTime - lastRew)
 
-        if (mTime - lastRew > 13) {
+        if (mTime - lastRew > 10) {
 
             if (typeof (sentGuess) === 'number' && (r === sentGuess)) {
 
