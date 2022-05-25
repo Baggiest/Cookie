@@ -6,7 +6,8 @@ const handler = new Handler(caller)
 
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
-    "giveCookie": "<a:GiveCookieR:971740550845853696>"
+    "giveCookie": "<a:GiveCookieR:971740550845853696>",
+    "que": "<:que:977672858593529956>"
 }
 
 module.exports = {
@@ -42,7 +43,7 @@ module.exports = {
             }
 
             if (senderID === receiverID) {
-                m.reply('fuckin retard 💀') // im very kind
+                m.reply(`${emotes.que} ?`) // im very kind
             }
         }
 
