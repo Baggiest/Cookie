@@ -57,9 +57,20 @@ module.exports = {
 
             } else {
 
+                let rand = Math.floor(Math.random() * 10)
+                let jackpotIncrease;
+
+                if (rand >= 5) {
+                    jackpotIncrease = 1
+                }
+                else {
+                    jackpotIncrease = 2
+                }
+                console.log("rand", rand)
+
                 await State.updateOne({}, {
                     $inc: {
-                        jackpot: +1
+                        jackpot: jackpotIncrease
                     }
                 })
 
