@@ -2,6 +2,7 @@ const config = require("../config.json");
 const Handler = require("../mongo/handler");
 const caller = 'guessing game'
 const User = require('../mongo/users')
+const State = require('../mongo/state')
 const handler = new Handler(caller)
 
 module.exports = {
@@ -19,7 +20,8 @@ module.exports = {
 
         const sentGuess = Number(mSplit[2])
 
-        const r = Math.floor(Math.random() * 100) + 1;
+        // const r = Math.floor(Math.random() * 100) + 1;
+        const r = 3 // for testing shit
 
         console.log("message", mTime)
         console.log("mongo", lastRew)
@@ -31,11 +33,12 @@ module.exports = {
 
             if (typeof (sentGuess) === 'number' && (r === sentGuess)) {
 
+                let currentState = await State.findOne({})
+                message.reply(`YOU GUESSED CORRECTLY! HERES ${currentState.jackpot} COOKIES`)
 
-                message.reply('YOU GUESSED CORRECTLY! HERES 50 COOKIES')
 
                     .then(async () => {
-                        handler.addBal(message.author.id, 50)
+                        handler.addBal(message.author.id, currentState.jackpot)
 
                         await User.findOneAndUpdate({ userID: message.author.id }, {
                             lastReward: mTime,
@@ -45,9 +48,19 @@ module.exports = {
                             },
                             userTag: message.author.tag
                         })
+                        await State.updateOne({}, {
+                            jackpot: 2,
+                            lastWinner: userData.userTag
+                        })
                     })
 
             } else {
+
+                await State.updateOne({}, {
+                    $inc: {
+                        jackpot: +2
+                    }
+                })
 
                 await User.findOneAndUpdate({ userID: message.author.id }, {
 
@@ -59,7 +72,8 @@ module.exports = {
                 })
 
                     .then(async () => {
-                        message.reply(`You lost and the number was ${r}`)
+                        let currentState = await State.findOne({})
+                        message.reply(`You lost and the **number was ${r}** and the current **jackpot is ${currentState.jackpot}** <:Cookie:970644679353831424>!\nLatest W taker 👑 **${currentState.lastWinner}**`)
                     })
             }
         }
