@@ -20,8 +20,8 @@ module.exports = {
 
         const sentGuess = Number(mSplit[2])
 
-        // const r = Math.floor(Math.random() * 100) + 1;
-        const r = 3 // for testing shit
+        const r = Math.floor(Math.random() * 100) + 1;
+        // const r = 3 // for testing shit
 
         console.log("message", mTime)
         console.log("mongo", lastRew)
