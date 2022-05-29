@@ -59,7 +59,7 @@ module.exports = {
 
                 await State.updateOne({}, {
                     $inc: {
-                        jackpot: +2
+                        jackpot: +1
                     }
                 })
 
