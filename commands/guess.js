@@ -34,7 +34,7 @@ module.exports = {
             if (typeof (sentGuess) === 'number' && (r === sentGuess)) {
 
                 let currentState = await State.findOne({})
-                message.reply(`YOU GUESSED CORRECTLY! HERES ${currentState.jackpot} COOKIES`)
+                message.reply(`**YOU GUESSED CORRECTLY! HERES ${currentState.jackpot} COOKIES**`)
 
 
                     .then(async () => {
@@ -44,12 +44,13 @@ module.exports = {
                             lastReward: mTime,
                             lastPlayed: mTime,
                             $inc: {
-                                timesPlayed: + 1
+                                timesPlayed: + 1,
+                                timesWon: +1
                             },
                             userTag: message.author.tag
                         })
                         await State.updateOne({}, {
-                            jackpot: 2,
+                            jackpot: 1,
                             lastWinner: userData.userTag
                         })
                     })
