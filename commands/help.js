@@ -9,7 +9,7 @@ const helpEmbed = new MessageEmbed()
     .setDescription(
         `Uh basically, **capitalism** \n\nthe only way to get cookies is by **chatting**, every message has a ~4% chance of giving u 1-10 cookies and you can\n\n give cookies by **hey give @id (number of cookies)** \n\ncheck your balance by **hey bal** \n\nglobal leaderboard by **hey lb**\n\n also this is ben`
     )
-    .setColor('PURPLE')
+    .setColor('PURPLE'),
 
 const row = new MessageActionRow()
 
