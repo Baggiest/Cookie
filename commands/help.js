@@ -35,7 +35,7 @@ const row = new MessageActionRow()
           
             .setStyle('LINK'),
 
-    )
+    ),
 
 module.exports = {
     name: 'help',
