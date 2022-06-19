@@ -35,10 +35,10 @@ const row = new MessageActionRow()
           
             .setStyle('LINK'),
 
-    ),
+    )
 
 module.exports = {
-    name: 'help',
+    name: 'help', 
     description: 'send help',
     cooldown: 5,
     async execute(message) {
