@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const symbolDB = require('../symbols.json')
 const Handler = require('../mongo/handler')
 

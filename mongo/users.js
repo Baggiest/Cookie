@@ -16,9 +16,10 @@ const userSchema = new mongoose.Schema({
     balance: { type: Number, required: true, default: 0 },
     serverID: { type: String, required: false },
     timesPlayed: { type: Number, default: 0 },
-    timesWon: {type: Number, default: 0},
+    timesWon: { type: Number, default: 0 },
     lastReward: { type: Number, default: 1 },
     lastPlayed: { type: Number, default: 1 },
+    payedTaxes: { type: Boolean, default: false},
     userTag: { type: String },
     isBanned: { type: Boolean, default: false },
 

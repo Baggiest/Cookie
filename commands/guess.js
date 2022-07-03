@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const config = require("../config.json");
 const Handler = require("../mongo/handler");
 const caller = 'guessing game'

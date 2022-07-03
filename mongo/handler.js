@@ -212,4 +212,34 @@ module.exports = class Handler {
             console.log(setUserBan)
         }
     }
+
+    async confirmTax(id) {
+
+        const userData = await this.fetchData(id)
+        console.log("id", id)
+
+        try {
+            let setUserTaxStatus = await User.findOneAndUpdate({ userID: id }, {
+                payedTaxes: !userData.payedTaxes
+            })
+
+            return setUserTaxStatus.payedTaxes
+        }
+
+        catch (e) {
+            console.error(e)
+        }
+    }
+
+    async checkTaxStatus(id) {
+        
+        try {
+            let userData = await this.fetchData(id)
+            return userData.payedTaxes
+        }
+
+        catch (e) {
+            console.error(e)
+        }
+    }
 }
