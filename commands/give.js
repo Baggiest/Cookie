@@ -7,7 +7,7 @@ const handler = new Handler(caller)
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
     "giveCookie": "<a:GiveCookieR:971740550845853696>",
-    "que": "<:que:977672858593529956>"
+    "que": "<:que:994015803525582878>"
 }
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
             recIsBanned = receieverData.isBanned;
             console.log("both parties are valid")
         }
-        else{
+        else {
             m.reply("trying to pay a bot now?")
             return false;
         }
@@ -64,9 +64,26 @@ module.exports = {
                 }
             }
 
-            if (senderID === receiverID) {
+            else if (senderID === receiverID) {
                 m.reply(`${emotes.que} ?`) // im very kind
+                return false;
             }
+
+            if (senderIsBanned && recIsBanned) {
+                m.reply('YOU BOTH BANNED DAMN 💀')
+                return false;
+            }
+            else {
+                if (senderIsBanned) {
+                    m.reply(`you're banned from using the network`)
+                    return false;
+                }
+                if (recIsBanned) {
+                    m.reply(`User ${receieverData.userTag} is banned off the network`)
+                    return false;
+                }
+            }
+
         }
 
 
