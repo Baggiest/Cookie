@@ -22,11 +22,33 @@ module.exports = {
         let receiverID = mString[2].substring(2, 20) // incoming id is <@blahblah> so we gotta cut out @<>
         let amount = Math.floor(Number(mString[3])) // the number gotta be whole, and non NaN
 
+        let senderData = await handler.fetchData(senderID);
+        let receieverData = await handler.fetchData(receiverID);
+
+        let senderIsBanned
+        let recIsBanned
+
+        if (receieverData != null) {
+            senderIsBanned = senderData.isBanned;
+            recIsBanned = receieverData.isBanned;
+            console.log("both parties are valid")
+        }
+        else{
+            m.reply("trying to pay a bot now?")
+            return false;
+        }
+
+        console.log(senderData)
+        console.log(receieverData)
+
+        console.log("cock")
+        console.log("receiver:", recIsBanned, "sender:", senderIsBanned)
+
         console.log(`${amount} ${senderID} ${receiverID}`)
 
         if (amount >= 1 && !isNaN(amount) && receiverID.length === 18) { // just making sure its a sane number
 
-            if (senderID != receiverID) { // making sure they arent giving themselves
+            if (senderID != receiverID && !recIsBanned && !senderIsBanned) { // making sure they arent giving themselves
 
                 let payment = await handler.payUser(senderID, receiverID, amount, m) //straight forward
 
