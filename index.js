@@ -90,7 +90,7 @@ async function bootstrap() {
     //if here is just excluding the cookie bot from doing shit with its own messages
 
     if (message.author.bot) return;
-
+  
     handler.userValidate(message, "messageCreateFunc") //just signs every mf up
     lottery(message) //the prize chance shit
     
