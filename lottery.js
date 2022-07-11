@@ -4,7 +4,9 @@ const caller = "lottery"
 const handler = new Handler(caller)
 const User = require('./mongo/users')
 const config = require('./config.json');
-const { delta } = require("ccxt");
+const {
+    delta
+} = require("ccxt");
 
 let isLotteryRunning = false;
 
@@ -48,7 +50,7 @@ module.exports = async (m) => {
         //console.log(userIsBanned)
         console.log("message", mTime, "lastRew", lastRewarded, "delta", `${mTime - lastRewarded}`)
 
-        if (r >= 99) {
+        if (r >= 99 && (mTime - lastRewarded > 400) && (isBanned === false)) {
             let newNumber = Math.floor(Math.random() * 100) + 1;
 
             // 20% chance of activting the lottery
@@ -96,34 +98,33 @@ module.exports = async (m) => {
                         }
                     })
                 }
+                
+                // sleep for 120 seconds
+                await sleep(120000)
+
                 isLotteryRunning = false;
             } 
-            
-            else 
-            {
-                if ((mTime - lastRewarded > 400) && (isBanned === false)) { //can only be rewarded every 20 seconds
+            else {
+                //wins amounts of cookies that should be decided in the other function
+                const num = prizeAmount()
 
-                    //wins amounts of cookies that should be decided in the other function
-                    const num = prizeAmount()
+                console.log(msgAuthorID)
+                m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`)
 
-                    console.log(msgAuthorID)
-                    m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`)
+                handler.addBal(msgAuthorID, num).then(async () => { // give the money and make sure
 
-                    handler.addBal(msgAuthorID, num).then(async () => { // give the money and make sure
+                    try {
+                        await User.findOneAndUpdate({
+                            userID: msgAuthorID
 
-                        try {
-                            await User.findOneAndUpdate({
-                                userID: msgAuthorID
-
-                            }, {
-                                // then update the last time they got rewarded
-                                lastReward: mTime
-                            })
-                        } catch (error) {
-                            console.log(error)
-                        }
-                    })
-                }
+                        }, {
+                            // then update the last time they got rewarded
+                            lastReward: mTime
+                        })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
             }
         }
     }
