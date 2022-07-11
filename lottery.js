@@ -4,9 +4,7 @@ const caller = "lottery"
 const handler = new Handler(caller)
 const User = require('./mongo/users')
 const config = require('./config.json');
-const {
-    delta
-} = require("ccxt");
+const { delta } = require("ccxt");
 
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
@@ -52,7 +50,7 @@ module.exports = async (m) => {
 
             // 20% chance of activting the lottery
             if (newNumber >= 1 && newNumber <= 20) {
-                let lotteryMsg = m.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 15 cookies!`)
+                let lotteryMsg = m.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 25 cookies!`)
                 await lotteryMsg.react(emotes.giveCookie)
 
                 // sleep for 60 seconds
