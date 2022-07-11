@@ -28,12 +28,6 @@ module.exports = {
                 return false
             }
 
-            // amount has to be greater than 0
-            if (amount <= 0) {
-                m.reply('enter a positive number lmfao')
-                return false
-            }
-
             else if (amount > userBalance) {
                 m.reply("not enough balance")
                 return false
