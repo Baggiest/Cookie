@@ -4,9 +4,7 @@ const caller = "lottery"
 const handler = new Handler(caller)
 const User = require('./mongo/users')
 const config = require('./config.json');
-const {
-    delta
-} = require("ccxt");
+const { delta } = require("ccxt");
 
 let isLotteryRunning = false;
 
