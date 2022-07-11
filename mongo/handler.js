@@ -232,7 +232,7 @@ module.exports = class Handler {
     }
 
     async checkTaxStatus(id) {
-        
+
         try {
             let userData = await this.fetchData(id)
             return userData.payedTaxes
