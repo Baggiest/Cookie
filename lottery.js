@@ -6,11 +6,16 @@ const User = require('./mongo/users')
 const config = require('./config.json');
 const { delta } = require("ccxt");
 
+let isLotteryRunning = false;
+
 const emotes = {
     "cookie": "<:Cookie:970644679353831424>",
     "giveCookie": "<a:GiveCookieR:971740550845853696>"
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 module.exports = async (m) => {
 
@@ -18,13 +23,11 @@ module.exports = async (m) => {
     const msgAuthorID = m.author.id
     const userData = await handler.fetchData(msgAuthorID)
     const mTime = Math.floor(m.createdTimestamp / 1000)
-    //let lastRewarded = userData.lastReward
-
     // console.log(await userData)
     // console.log(`message at ${messageTimestamp} and last reward at ${lastRewarded}`)
 
-    let lastRewarded = await userData.lastReward
-    let isBanned = await userData.isBanned
+    let lastRewarded = await userData.lastReward || 0
+    let isBanned = await userData.isBanned || false
 
     function prizeAmount() {
 
@@ -49,15 +52,19 @@ module.exports = async (m) => {
             let newNumber = Math.floor(Math.random() * 100) + 1;
 
             // 20% chance of activting the lottery
-            if (newNumber >= 1 && newNumber <= 20) {
-                let lotteryMsg = m.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 25 cookies!`)
-                await lotteryMsg.react(emotes.giveCookie)
+            if (newNumber <= 20 && !isLotteryRunning) {
+                // set the lottery to running
+                isLotteryRunning = true;
+
+                let lotteryMsg = await m.channel.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 20 cookies!`)
+                await lotteryMsg.react("🍪")
 
                 // sleep for 60 seconds
-                await sleep(60000)
+                await sleep(10000)
 
                 // get all users who reacted to the message
-                let users = await lotteryMsg.reactions.cache.get(emotes.giveCookie.id).users.fetch()
+                let reaction = await lotteryMsg.reactions.cache.get("🍪")
+                let users = await reaction.users.fetch()
 
                 // filter out the bots and make an array of the users and filter if user is not banned
                 let usersArray = users.filter(user => !user.bot && !isBanned)
@@ -66,20 +73,20 @@ module.exports = async (m) => {
                 // if there are users who reacted to the message
                 if (usersArray.size > 0) {
 
-                    // pick a random user from the array
-                    let winner = usersArray[Math.floor(Math.random() * usersArray.length)]
+                    // pick a random winner 
+                    let winner = usersArray.random()
                     console.log(winner)
 
-                    // get a random amount up to 25 cookies 
-                    let prize = Math.floor(Math.random() * 25) + 1;
+                    // get a random amount up to 20 cookies 
+                    let prize = Math.floor(Math.random() * 20) + 1;
 
                     // send a message to the winner
-                    let winnerMsg = await m.send(`${winner.username} won ${prize} cookies from the lottery! ${emotes.giveCookie}`)
+                    await m.channel.send(`<@${winner.id}> won ${prize} cookies from the lottery! ${emotes.giveCookie}`)
 
-                    handler.addBal(winner, num).then(async () => {
+                    handler.addBal(winner.id, prize).then(async () => {
                         try {
                             await User.findOneAndUpdate({
-                                userID: winner,
+                                userID: winner.id,
                             }, {
                                 // then update the last time they got rewarded
                                 lastReward: mTime,
@@ -89,6 +96,7 @@ module.exports = async (m) => {
                         }
                     })
                 }
+                isLotteryRunning = false;
             } 
             
             else 
