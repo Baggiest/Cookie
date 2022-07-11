@@ -30,11 +30,9 @@ module.exports = {
         console.log(mSplit)
 
         if (typeof (pickedStock) === 'string') {
-
             pickedStock = pickedStock.toUpperCase()
         }
         else {
-
             return false;
         }
 
