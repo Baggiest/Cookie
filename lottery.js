@@ -60,7 +60,7 @@ module.exports = async (m) => {
                 await lotteryMsg.react("🍪")
 
                 // sleep for 60 seconds
-                await sleep(10000)
+                await sleep(60000)
 
                 // get all users who reacted to the message
                 let reaction = await lotteryMsg.reactions.cache.get("🍪")
