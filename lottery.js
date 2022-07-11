@@ -41,29 +41,29 @@ module.exports = async (m) => {
 
     async function getsPrize() {
 
-        let r = Math.floor(Math.random() * 100) + 1;
+        const r1 = Math.floor(Math.random() * 100) + 1;
         //generates a number between 1 & 100
-        console.log(r)
+        console.log(r1)
 
         //console.log(userIsBanned)
         console.log("message", mTime, "lastRew", lastRewarded, "delta", `${mTime - lastRewarded}`)
 
-        if (r >= 99) {
-            let newNumber = Math.floor(Math.random() * 100) + 1;
-
+        if (r1 >= 99) {
+            let r2 = Math.floor(Math.random() * 100) + 1;
+            
             // 20% chance of activting the lottery
-            if (newNumber <= 20 && !isLotteryRunning) {
+            if (r2 <= 20 && !isLotteryRunning) {
                 // set the lottery to running
                 isLotteryRunning = true;
 
                 let lotteryMsg = await m.channel.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 20 cookies!`)
-                await lotteryMsg.react("🍪")
+                await lotteryMsg.react(emotes.cookie)
 
                 // sleep for 60 seconds
-                await sleep(60000)
+                await sleep(30000)
 
                 // get all users who reacted to the message
-                let reaction = await lotteryMsg.reactions.cache.get("🍪")
+                let reaction = await lotteryMsg.reactions.cache.get(emotes.cookie)
                 let users = await reaction.users.fetch()
 
                 // filter out the bots and make an array of the users and filter if user is not banned
