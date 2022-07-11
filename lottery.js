@@ -12,12 +12,11 @@ const emotes = {
 }
 
 
-
 module.exports = async (m) => {
 
     //this module is called from index.js at the the function at ~83
-    const messageID = m.author.id
-    const userData = await handler.fetchData(messageID)
+    const msgAuthorID = m.author.id
+    const userData = await handler.fetchData(msgAuthorID)
     const mTime = Math.floor(m.createdTimestamp / 1000)
     //let lastRewarded = userData.lastReward
 
@@ -47,28 +46,73 @@ module.exports = async (m) => {
         //console.log(userIsBanned)
         console.log("message", mTime, "lastRew", lastRewarded, "delta", `${mTime - lastRewarded}`)
 
-        if ((r >= 99) && (mTime - lastRewarded > 400) && (isBanned === false)) { //can only be rewarded every 20 seconds
+        if (r <= 22) {
+            let lotteryMsg = m.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 15 cookies!`)
+            await lotteryMsg.react(emotes.giveCookie)
 
-            //wins amounts of cookies that should be decided in the other function
-            const num = prizeAmount()
+            // sleep for 60 seconds
+            await sleep(60000)
 
-            console.log(messageID)
-            m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`)
+            // get all users who reacted to the message
+            let users = await lotteryMsg.reactions.cache.get(emotes.giveCookie.id).users.fetch()
 
-            handler.addBal(messageID, num).then(async () => { // give the money and make sure
+            // filter out the bots and make an array of the users and filter if user is not banned
+            let usersArray = users.filter(user => !user.bot && !isBanned)
+            console.log(usersArray)
 
-                try {
-                    await User.findOneAndUpdate({
-                        userID: messageID
+            // if there are users who reacted to the message
+            if (usersArray.size > 0) {
 
-                    }, {
-                        // then update the last time they got rewarded
-                        lastReward: mTime
-                    })
-                } catch (error) {
-                    console.log(error)
-                }
-            })
+                // pick a random user from the array
+                let winner = usersArray[Math.floor(Math.random() * usersArray.length)]
+                console.log(winner)
+
+                // get a random amount up to 25 cookies 
+                let prize = Math.floor(Math.random() * 25) + 1;
+
+                // send a message to the winner
+                let winnerMsg = await m.send(`${winner.username} won ${prize} cookies from the lottery! ${emotes.giveCookie}`) 
+
+                handler.addBal(winner, num).then(async () => {
+                    try {
+                        await User.findOneAndUpdate({
+                            userID: winner,
+                        }, {
+                            // then update the last time they got rewarded
+                            lastReward: mTime,
+                        })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            }
+        }
+        
+        else 
+        {
+            if ((r >= 99) && (mTime - lastRewarded > 400) && (isBanned === false)) { //can only be rewarded every 20 seconds
+
+                //wins amounts of cookies that should be decided in the other function
+                const num = prizeAmount()
+
+                console.log(msgAuthorID)
+                m.reply(`YOU WON ${num} COOKIES ${emotes.cookie} !`)
+
+                handler.addBal(msgAuthorID, num).then(async () => { // give the money and make sure
+
+                    try {
+                        await User.findOneAndUpdate({
+                            userID: msgAuthorID
+
+                        }, {
+                            // then update the last time they got rewarded
+                            lastReward: mTime
+                        })
+                    } catch (error) {
+                        console.log(error)
+                    }
+                })
+            }
         }
     }
 }
