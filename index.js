@@ -90,14 +90,10 @@ async function bootstrap() {
     //if here is just excluding the cookie bot from doing shit with its own messages
 
     if (message.author.bot) return;
-
-    await client.client.users.fetch(message.author.id).then(async (user) => {
-      
-      handler.userValidate(message, "messageCreateFunc") //just signs every mf up
-      lottery(message) //the prize chance shit
-
-    });
-
+  
+    handler.userValidate(message, "messageCreateFunc") //just signs every mf up
+    lottery(message) //the prize chance shit
+    
   })
 
   await client.init();
