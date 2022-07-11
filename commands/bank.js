@@ -13,7 +13,7 @@ module.exports = {
 
         let command = mArray[2]
         const amount = Number(mArray[3])
-        
+
 
         const userData = await handler.fetchData(userID)
         const userBalance = userData.balance
@@ -26,6 +26,10 @@ module.exports = {
             if (isNaN(amount)) {
                 m.reply('not a number lmfao')
                 return false
+            }
+            else if (amount < 0){
+                m.reply("kill yourself dipshit")
+                return false;
             }
 
             else if (amount > userBalance) {
