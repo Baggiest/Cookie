@@ -55,39 +55,47 @@ module.exports = {
                             lastWinner: userData.userTag
                         })
                     })
+            }
 
-            } else {
+            else {
 
-                let rand = Math.floor(Math.random() * 10)
-                let jackpotIncrease;
+                if (sentGuess <= 100) {
 
-                if (rand >= 5) {
-                    jackpotIncrease = 1
+                    let rand = Math.floor(Math.random() * 10)
+                    let jackpotIncrease;
+
+                    if (rand >= 5) {
+                        jackpotIncrease = 1
+                    }
+                    else {
+                        jackpotIncrease = 2
+                    }
+                    console.log("rand", rand)
+
+                    await State.updateOne({}, {
+                        $inc: {
+                            jackpot: jackpotIncrease
+                        }
+                    })
+
+                    await User.findOneAndUpdate({ userID: message.author.id }, {
+
+                        lastPlayed: mTime,
+                        userTag: message.author.tag,
+                        $inc: {
+                            timesPlayed: + 1
+                        }
+                    })
+
+                        .then(async () => {
+                            let currentState = await State.findOne({})
+                            message.reply(`You lost and the **number was ${r}** and the current **jackpot is ${currentState.jackpot}** <:Cookie:970644679353831424>!\nLatest W taker 👑 **${currentState.lastWinner}**`)
+                        })
                 }
                 else {
-                    jackpotIncrease = 2
+                    let currentState = await State.findOne({})
+                    message.reply(`You lost and the **number was ${r}** and the current **jackpot is ${currentState.jackpot}** <:Cookie:970644679353831424>!\nLatest W taker 👑 **${currentState.lastWinner}**`)
                 }
-                console.log("rand", rand)
-
-                await State.updateOne({}, {
-                    $inc: {
-                        jackpot: jackpotIncrease
-                    }
-                })
-
-                await User.findOneAndUpdate({ userID: message.author.id }, {
-
-                    lastPlayed: mTime,
-                    userTag: message.author.tag,
-                    $inc: {
-                        timesPlayed: + 1
-                    }
-                })
-
-                    .then(async () => {
-                        let currentState = await State.findOne({})
-                        message.reply(`You lost and the **number was ${r}** and the current **jackpot is ${currentState.jackpot}** <:Cookie:970644679353831424>!\nLatest W taker 👑 **${currentState.lastWinner}**`)
-                    })
             }
         }
         else {
