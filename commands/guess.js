@@ -61,7 +61,7 @@ module.exports = {
 
             else {
 
-                if (sentGuess <= 100) {
+                if (sentGuess <= 100 && sentGuess >= 1) {
 
                     let rand = Math.floor(Math.random() * 10)
                     let jackpotIncrease;
