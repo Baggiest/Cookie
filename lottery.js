@@ -56,7 +56,7 @@ module.exports = async (m) => {
                 // set the lottery to running
                 isLotteryRunning = true;
 
-                let lotteryMsg = await m.channel.send(`THE COOKIE LOTTORY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 20 cookies!`)
+                let lotteryMsg = await m.channel.send(`THE COOKIE LOTTERY HAS BEEN STARTED! ${emotes.cookie}\n\n` + `React to win up to 20 cookies!`)
                 await lotteryMsg.react(emotes.cookie)
 
                 // sleep for 60 seconds
