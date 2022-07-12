@@ -19,13 +19,14 @@ module.exports = {
 
         let lastRew = await userData.lastPlayed
 
-        const sentGuess = Number(mSplit[2])
+        const sentGuess = Math.floor(Number(mSplit[2]))
 
         const r = Math.floor(Math.random() * 100) + 1;
         // const r = 3 // for testing shit
 
         console.log("message", mTime)
-        console.log("mongo", lastRew)
+        // console.log("mongo", lastRew)
+        console.log('sent guess', sentGuess)
 
 
         console.log("delta", mTime - lastRew)
