@@ -52,7 +52,8 @@ module.exports = {
                         })
                         await State.updateOne({}, {
                             jackpot: 1,
-                            lastWinner: userData.userTag
+                            lastWinner: userData.userTag,
+                            winTimestamp: mTime
                         })
                     })
             }
@@ -89,7 +90,7 @@ module.exports = {
 
                         .then(async () => {
                             let currentState = await State.findOne({})
-                            message.reply(`You lost and the **number was ${r}** and the current **jackpot is ${currentState.jackpot}** <:Cookie:970644679353831424>!\nLatest W taker 👑 **${currentState.lastWinner}**`)
+                            message.reply(`You lost and the **number was ${r}** and the current **jackpot is ${currentState.jackpot}** <:Cookie:970644679353831424>!\nLatest W taker 👑 **${currentState.lastWinner}** <t:${currentState.winTimestamp}:R>`)
                         })
                 }
                 else {
