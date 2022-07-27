@@ -5,6 +5,7 @@ const caller = 'guessing game'
 const User = require('../mongo/users')
 const State = require('../mongo/state')
 const handler = new Handler(caller)
+const crypto = require('node:crypto');
 
 module.exports = {
     name: 'guess',
@@ -21,8 +22,19 @@ module.exports = {
 
         const sentGuess = Math.floor(Number(mSplit[2]))
 
-        const r = Math.floor(Math.random() * 100) + 1;
-        // const r = 3 // for testing shit
+        function getRandomInt(method, min, max) { 
+            if(method == 'math') {
+                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                return random;
+            } else if(method == 'crypto') {
+                var byteArray = new Uint8Array(1);
+                crypto.webcrypto.getRandomValues(byteArray); 
+                var randomNum = '0.' + byteArray.toString();
+                random = Math.floor(randomNum * (max - min + 1)) + min;
+                return random;
+            };
+        };
+        const r = getRandomInt('crypto', 1, 100)
 
         console.log("message", mTime)
         // console.log("mongo", lastRew)
