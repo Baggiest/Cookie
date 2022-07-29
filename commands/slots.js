@@ -50,6 +50,8 @@ module.exports = {
                             .setColor("RANDOM")
                         m.reply(slotsEmbed1)
                         handler.payUser('00000000000000000', senderID, amount, m)
+                    } else {
+                        m.reply('you lose L bozo')
                     }
                 } else {
                     m.reply(`payment failed`)
