@@ -6,8 +6,15 @@ const State = require('../mongo/state')
 
 module.exports = async function connectDB() {
 
-    mongoose.connect(config.mongoURL, async () => {
+    // 
 
+    mongoose.connect(config.mongoURL, {
+        "auth": { "authSource": "admin" },
+        "user": config.mongoUser.username,
+        "pass": config.mongoUser.password
+    })
+    
+    .then(async () => {
         console.log("Mongo is running!")
 
         let stateExists = await State.exists({})
@@ -18,7 +25,7 @@ module.exports = async function connectDB() {
             console.log("state object is aight")
 
         } else {
-            
+
             let newState = await State.create({
                 jackpot: 5,
             })
