@@ -9,7 +9,7 @@ module.exports = async function connectDB() {
     // 
 
     mongoose.connect(config.mongoURL, {
-        "auth": { "authSource": "admin" },
+        "auth": { "authSource": "cookies" },
         "user": config.mongoUser.username,
         "pass": config.mongoUser.password
     })
