@@ -39,7 +39,7 @@ module.exports = {
 
             else {
                 handler.payUser(userID, bankID, amount, m).then(() => {
-                    m.reply(`**You have paid the Bank of Pepeja ${amount} cookies!** <:Cookie:970644679353831424> \n*Please contact a cookie comrade to get confirmed...*`)
+                    m.reply(`**You have paid the Government of Pepeja ${amount} cookies!** <:Cookie:970644679353831424> \n*Please contact a cookie comrade to get confirmed...*`)
                 })
             }
         }
