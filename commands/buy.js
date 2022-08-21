@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 
 const Handler = require("../mongo/handler")
-const Stock = require('../api/stocks')
+// const Stock = require('../api/stocks')
 
 const caller = "buying stock CMD"
 
 const handler = new Handler(caller)
-const stock = new Stock()
+// const stock = new Stock()
 
 module.exports = {
 
