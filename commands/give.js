@@ -27,10 +27,17 @@ module.exports = {
 
         let senderIsBanned
         let recIsBanned
+        
+        
+        let senderHasPaidTax
+        let receiverHasPaidTax;
 
         if (receieverData != null) {
             senderIsBanned = senderData.isBanned;
             recIsBanned = receieverData.isBanned;
+            
+            senderHasPaidTax = senderData.hasPayed;
+            receiverHasPaidTax = receieverData.hasPayed;
             console.log("both parties are valid")
         }
         else {
@@ -68,6 +75,11 @@ module.exports = {
                 m.reply(`${emotes.que} ?`) // im very kind
                 return false;
             }
+            
+            if (senderHasPaidTax && receiverHasPaidTax){
+                console.log("all good")
+
+                } else { m.reply(`${emotes.que} one of u hasnt paid their tax`)}
 
             if (senderIsBanned && recIsBanned) {
                 m.reply('YOU BOTH BANNED DAMN 💀')
