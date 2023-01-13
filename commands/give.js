@@ -49,16 +49,10 @@ module.exports = {
         console.log(receieverData)
         
 
-        if (senderHasPaidTax && receiverHasPaidTax){
-                console.log("all good");
-        } 
-        else {
+        if (senderHasPaidTax === false && receiverHasPaidTax === false){
             m.reply(`${emotes.que} One of you hasn't paid their taxes`); 
-            return false;
+            return false;        
         }
-
-            
-
 
         console.log("cock")
         console.log("receiver:", recIsBanned, "sender:", senderIsBanned)
