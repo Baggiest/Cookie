@@ -27,7 +27,7 @@ module.exports = {
                 m.reply('not a number lmfao')
                 return false
             }
-            else if (amount < 0){
+            else if (amount <= 0){
                 m.reply("kill yourself dipshit")
                 return false;
             }
