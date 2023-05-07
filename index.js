@@ -92,7 +92,7 @@ async function bootstrap() {
     if (message.author.bot) return;
   
     handler.userValidate(message, "messageCreateFunc") //just signs every mf up
-    lottery(message) //the prize chance shit
+    //lottery(message) //the prize chance shit
     
   })
 
